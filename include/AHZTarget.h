@@ -44,17 +44,17 @@ struct TargetData
         logger::trace("isValid: {}", isValid);
         logger::trace("canCarry: {}", canCarry);
         logger::trace("bookRead: {}", bookRead);
-        logger::trace("formType: {}", formType);
-        logger::trace("formId: {}", formId);
+        logger::trace("formType: {}", static_cast<int>(formType));
+        logger::trace("formId: {}", static_cast<int>(formId));
         logger::trace("effectsDescription: {}", effectsDescription);
         logger::trace("description: {}", description);
-        logger::trace("bookSkill: {}", bookSkill);
+        logger::trace("bookSkill: {}", static_cast<int>(bookSkill));
         logger::trace("isSpellTome: {}", isSpellTome);
         logger::trace("damage: {}", damage);
-        logger::trace("armorType: {}", armorType);
+        logger::trace("armorType: {}", static_cast<int>(armorType));
         logger::trace("armorRating: {}", armorRating);
         logger::trace("armorWarmthRating: {}", armorWarmthRating);
-        logger::trace("armorslotMask: {}", armorslotMask);
+        logger::trace("armorslotMask: {}", static_cast<int>(armorslotMask));
         logger::trace("knownIngredientEffects:");
         for (auto& i : knownIngredientEffects) {
             logger::trace("   {}", i);
@@ -62,8 +62,8 @@ struct TargetData
         logger::trace("name: {}", name);
         logger::trace("displayName: {}", displayName);
         logger::trace("weight: {}", weight);
-        logger::trace("weaponType: {}", weaponType);
-        logger::trace("enchantmentType: {}", enchantmentType);
+        logger::trace("weaponType: {}", static_cast<int>(weaponType));
+        logger::trace("enchantmentType: {}", static_cast<int>(enchantmentType));
         logger::trace("isAmmoBolt: {}", isBoltAmmo);
     }
 
