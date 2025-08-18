@@ -283,28 +283,3 @@ if (MSVC)
 			"$<$<CONFIG:RELEASE>:/INCREMENTAL:NO;/OPT:REF;/OPT:ICF;/DEBUG:FULL>"
 	)
 endif()
-
-# ---- Post build ----
-
-IF( USE_SE_BUILD )
-add_custom_command(
-	TARGET ${PROJECT_NAME}
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> $ENV{Skyrim64SEPath}/Data/SKSE/Plugins/
-	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PDB_FILE:${PROJECT_NAME}> $ENV{Skyrim64SEPath}/Data/SKSE/Plugins/
-)
-ELSEIF(USE_VR_BUILD)
-add_custom_command(
-	TARGET ${PROJECT_NAME}
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> $ENV{SkyrimVRPath}/Data/SKSE/Plugins/
-	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PDB_FILE:${PROJECT_NAME}> $ENV{SkyrimVRPath}/Data/SKSE/Plugins/
-)
-ELSE()
-add_custom_command(
-	TARGET ${PROJECT_NAME}
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> $ENV{Skyrim64AEPath}/Data/SKSE/Plugins/
-	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PDB_FILE:${PROJECT_NAME}> $ENV{Skyrim64AEPath}/Data/SKSE/Plugins/
-)
-ENDIF()
