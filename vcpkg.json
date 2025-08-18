@@ -11,11 +11,5 @@
     "xbyak",
     "rsm-binary-io"
   ],
-  "builtin-baseline":"bba8794b82a0f44b8709f294850a2c8e96b61415",
-  "overrides":[
-    {
-       "name":"fmt",
-       "version":"8.0.1"
-    }
- ] 
+  "builtin-baseline":"4bb07a326d9b9bce3703272a509e5bc25dd9cfd5"
 }
