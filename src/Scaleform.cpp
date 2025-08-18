@@ -3,46 +3,11 @@
 #include "AHZScaleform.h"
 #include "SKSE/API.h"
 #include "AHZPapyrusMoreHud.h"
+#include "Completionist.h"
 #include "HashUtil.h"
 
 namespace Scaleform
 {
-	struct moreHUDmessage {
-
-		RE::FormID m_formID;
-		bool m_icontype; // false = New, true = Found
-		bool m_display;
-	};
-
-    moreHUDmessage s_messageFromCompletionist{};
-    
-
-    void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
-    {
-        if (a_msg->type != 1)
-        {
-            return;
-        }
-
-        if (!a_msg->data)
-        {
-            return;
-        }
-
-        s_messageFromCompletionist = *static_cast<moreHUDmessage*>(a_msg->data);
-    }
-
-    void RegisterMessageListener()
-    {
-        if (WinAPI::GetModuleHandle(L"Completionist"))
-        {
-            logger::info("Completionist is installed, registering listener"sv);        
-            auto messageInterface = SKSE::GetMessagingInterface();
-            messageInterface->RegisterListener("Completionist", MessageHandler); 
-        }
-    }
-
-    
     class SKSEScaleform_InstallHooks : public RE::GFxFunctionHandler
     {
     public:
@@ -232,21 +197,23 @@ namespace Scaleform
             auto formId = ref.formId;
             auto customIcons = PapyrusMoreHud::GetFormIcons(formId);
 
-            if (s_messageFromCompletionist.m_display && s_messageFromCompletionist.m_formID == formId)
-            {
-                customIcons.emplace_back(s_messageFromCompletionist.m_icontype ? "cmpFound"sv : "cmpNew"sv);
+            const auto form = RE::TESForm::LookupByID(formId);
+            const auto object = skyrim_cast<RE::TESBoundObject*>(form);
+            if (object) {
+                const auto iconInfo = Completionist::GetIconInfo(object);
+                const auto iconName = iconInfo.GetRequiredIconName();
+
+                if (iconName && *iconName) {
+                    customIcons.emplace_back(iconName);
+                    //logger::info("custom icon: {}", iconName);
+                }
             }
 
-            if (!customIcons.empty()) {
-                RE::GFxValue entry;
-                a_params.retVal->SetArraySize(static_cast<uint32_t>(customIcons.size()));
-                auto idx = 0;
-                for (auto& ci : customIcons) {
-                    entry.SetString(ci);
-                    a_params.retVal->SetElement(idx++, entry);
-                }
-            } else {
-                a_params.retVal->SetArraySize(0);
+            auto& result = a_params.retVal;
+            result->SetArraySize(static_cast<uint32_t>(customIcons.size()));
+
+            for (size_t i = 0; i < customIcons.size(); i++) {
+                result->SetElement(static_cast<uint32_t>(i), customIcons[i]);
             }
         }
     };

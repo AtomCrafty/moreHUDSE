@@ -19,6 +19,7 @@
 #include <Papyrus.h>
 #include "AHZExternalFormTable.h"
 #include "AHZVanillaFormTable.h"
+#include "Completionist.h"
 
 using namespace moreHUD;
 //using namespace std;
@@ -64,8 +65,7 @@ namespace
             break;
             case SKSE::MessagingInterface::kPostPostLoad:
             {
-                logger::info("Registering Message Listener");
-                Scaleform::RegisterMessageListener(); 
+                Completionist::Init();
             }
             break;
         }

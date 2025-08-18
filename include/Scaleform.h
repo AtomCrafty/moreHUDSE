@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "RE/Skyrim.h"
-#include "SKSE/Logger.h"
 
 namespace Scaleform
 {
@@ -32,5 +31,4 @@ namespace Scaleform
     };
 
     void RegisterCallbacks();
-    void RegisterMessageListener();
 }
